@@ -9,7 +9,7 @@ countdown of 33 minutes which is an approximate of the length of the event (may 
 It will then keep scanning to see if the event has ended, and if so, it will display the time the event started 
 and when it ended (using the time zone of the player's computer)
 
-Why not just use the Discord bot?
+# Why not just use the Discord bot?
 
 Because the Discord bot is not precisely enough and because I'm not always on Discord. This tool is accessing DF3D's API directly 
 and displaying the real deal.

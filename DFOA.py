@@ -24,12 +24,14 @@ def countdown():
 
     t = 1980
 
-    while t and not end_time:
+    while t:
         mins, secs = divmod(t, 60)
         timer = '{:02d}:{:02d}'.format(mins, secs)
-        label_warning["text"] = "OUTPOST ATTACK!" \
-                                "\n\nStarted at: " + started_time + \
-                                "\n\nEnds in about: " + timer
+
+        if not end_time:
+            label_warning["text"] = "OUTPOST ATTACK!" \
+                                    "\n\nStarted at: " + started_time + \
+                                    "\n\nEnds in about: " + timer
         time.sleep(1)
         t -= 1
 

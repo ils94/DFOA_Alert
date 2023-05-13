@@ -24,7 +24,7 @@ def countdown():
 
     t = 1980
 
-    while t:
+    while t and not end_time:
         mins, secs = divmod(t, 60)
         timer = '{:02d}:{:02d}'.format(mins, secs)
 
@@ -35,7 +35,7 @@ def countdown():
         time.sleep(1)
         t -= 1
 
-        if t < 3:
+        if t < 3 and not end_time:
             label_warning["text"] = "The attack \n is about to end."
             break
 

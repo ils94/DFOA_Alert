@@ -1,4 +1,4 @@
-from tkinter import Tk, Label, BOTH
+from tkinter import Tk, Label, BOTH, messagebox
 import requests
 import miscs
 import time
@@ -41,15 +41,12 @@ def countdown():
 
 
 def bs4soup(link):
-    try:
-        referer = "https://www.google.com/"
-        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                                 "AppleWebKit/537.36 (KHTML, like Gecko) "
-                                 "Chrome/108.0.0.0 Safari/537.36", "referer": referer}
+    referer = "https://www.google.com/"
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                             "AppleWebKit/537.36 (KHTML, like Gecko) "
+                             "Chrome/108.0.0.0 Safari/537.36", "referer": referer}
 
-        return BeautifulSoup(requests.get(link, headers=headers).text, 'html.parser')
-    except Exception as e:
-        print(e)
+    return BeautifulSoup(requests.get(link, headers=headers).text, 'html.parser')
 
 
 def scan_oa_attacks():
@@ -59,8 +56,11 @@ def scan_oa_attacks():
     end_time = ""
 
     while True:
-
-        attacks = str(bs4soup(OA_site)).replace("[", "").replace("]", "")
+        try:
+            attacks = str(bs4soup(OA_site)).replace("[", "").replace("]", "")
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
+            continue
 
         if attacks:
             started_time = get_time()
@@ -76,8 +76,11 @@ def scan_oa_attacks():
         time.sleep(3)
 
     while True:
-
-        still_happening = str(bs4soup(OA_site)).replace("[", "").replace("]", "")
+        try:
+            still_happening = str(bs4soup(OA_site)).replace("[", "").replace("]", "")
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
+            continue
 
         if not still_happening:
             end_time = get_time()

@@ -61,7 +61,6 @@ def scan_oa_attacks():
         try:
             attacks = str(bs4soup(OA_site)).replace("[", "").replace("]", "")
 
-            attacks = "1"
         except Exception as e:
             messagebox.showerror("Error", str(e))
             continue
@@ -83,7 +82,6 @@ def scan_oa_attacks():
         try:
             still_happening = str(bs4soup(OA_site)).replace("[", "").replace("]", "")
 
-            still_happening = "1"
         except Exception as e:
             messagebox.showerror("Error", str(e))
             continue

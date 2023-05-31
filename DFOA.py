@@ -22,7 +22,9 @@ def get_time():
 def countdown():
     global started_time, end_time
 
-    t = 1980
+    c = started_time.split(":")
+
+    t = (int(c[1]) * 60) - 2160
 
     while t and not end_time:
         mins, secs = divmod(t, 60)
@@ -58,6 +60,8 @@ def scan_oa_attacks():
     while True:
         try:
             attacks = str(bs4soup(OA_site)).replace("[", "").replace("]", "")
+
+            attacks = "1"
         except Exception as e:
             messagebox.showerror("Error", str(e))
             continue
@@ -78,6 +82,8 @@ def scan_oa_attacks():
     while True:
         try:
             still_happening = str(bs4soup(OA_site)).replace("[", "").replace("]", "")
+
+            still_happening = "1"
         except Exception as e:
             messagebox.showerror("Error", str(e))
             continue

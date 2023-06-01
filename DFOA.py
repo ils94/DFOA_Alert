@@ -2,7 +2,7 @@ from tkinter import Tk, Label, BOTH, messagebox
 import requests
 import miscs
 import time
-from datetime import datetime
+import datetime
 from playsound import playsound
 from bs4 import BeautifulSoup
 
@@ -12,32 +12,60 @@ started_time = ""
 
 end_time = ""
 
+has_ended = ""
 
-def get_time():
-    current_time = datetime.now().strftime("%H:%M:%S")
 
-    return current_time
+def event_time_calculation():
+    global started_time, end_time
+
+    current_time = datetime.datetime.now().time()
+
+    event_start_minutes = [6, 36]
+
+    event_duration = datetime.timedelta(minutes=30)
+
+    closest_start_time = None
+    closest_time_diff = datetime.timedelta(hours=1)
+
+    for start_minute in event_start_minutes:
+        start_time = datetime.datetime.combine(datetime.date.today(), datetime.time(current_time.hour, start_minute))
+
+        if current_time >= start_time.time():
+            time_diff = datetime.datetime.combine(datetime.date.today(), current_time) - start_time
+        else:
+            time_diff = start_time - datetime.datetime.combine(datetime.date.today(), current_time)
+
+        if time_diff < closest_time_diff:
+            closest_start_time = start_time
+            closest_time_diff = time_diff
+
+    started_time = closest_start_time.strftime("%H:%M")
+
+    end_time = (closest_start_time + event_duration).strftime("%H:%M")
+
+    remaining_time = closest_start_time + event_duration - datetime.datetime.now()
+
+    remaining_seconds = int(remaining_time.total_seconds())
+
+    return int(remaining_seconds)
 
 
 def countdown():
-    global started_time, end_time
+    global started_time, has_ended
 
-    c = started_time.split(":")
+    t = event_time_calculation()
 
-    t = (int(c[1]) * 60) - 2160
-
-    while t and not end_time:
+    while t and not has_ended:
         mins, secs = divmod(t, 60)
         timer = '{:02d}:{:02d}'.format(mins, secs)
 
-        if not end_time:
-            label_warning["text"] = "OUTPOST ATTACK!" \
-                                    "\n\nStarted at: " + started_time + \
-                                    "\n\nEnds in about: " + timer
+        label_warning["text"] = "OUTPOST ATTACK!" \
+                                "\n\nStarted at: " + started_time + \
+                                "\n\nEnds in about: " + timer
         time.sleep(1)
         t -= 1
 
-        if t < 3 and not end_time:
+        if t < 3 and not has_ended:
             label_warning["text"] = "The attack \n is about to end."
             break
 
@@ -52,10 +80,9 @@ def bs4soup(link):
 
 
 def scan_oa_attacks():
-    global started_time, end_time
+    global has_ended
 
-    started_time = ""
-    end_time = ""
+    has_ended = ""
 
     while True:
         try:
@@ -66,8 +93,6 @@ def scan_oa_attacks():
             continue
 
         if attacks:
-            started_time = get_time()
-
             root.wm_state("normal")
 
             miscs.multithreading(countdown)
@@ -87,12 +112,12 @@ def scan_oa_attacks():
             continue
 
         if not still_happening:
-            end_time = get_time()
+            has_ended = "1"
 
             label_warning["text"] = "The attack has ended." \
                                     "\n\nStarted at: " + started_time + "\nEnded at: " + end_time
 
-            time.sleep(10)
+            time.sleep(3)
 
             miscs.multithreading(scan_oa_attacks)
 

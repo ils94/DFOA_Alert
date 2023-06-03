@@ -50,7 +50,7 @@ def scan_oa_attacks(root, label):
 
             time.sleep(3)
 
-            miscs.multithreading(scan_oa_attacks)
+            miscs.multithreading(lambda: scan_oa_attacks(root, label))
 
             break
 

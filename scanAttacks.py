@@ -5,12 +5,11 @@ import miscs
 import countdownClock
 from playsound import playsound
 import time
-import datetime
 
 OA_site = "https://deadfrontier.com/OACheck.php"
 
 
-def scan_oa_attacks(root, label):
+def scan_oa_attacks():
     globalVariables.has_ended = ""
 
     while True:
@@ -22,9 +21,9 @@ def scan_oa_attacks(root, label):
             continue
 
         if attacks:
-            root.wm_state("normal")
+            globalVariables.root.wm_state("normal")
 
-            miscs.multithreading(lambda: countdownClock.countdown(label))
+            miscs.multithreading(lambda: countdownClock.countdown())
 
             playsound("alert.mp3")
 
@@ -43,14 +42,11 @@ def scan_oa_attacks(root, label):
         if not still_happening:
             globalVariables.has_ended = "1"
 
-            end_time = datetime.datetime.now().strftime("%H:%M")
-
-            label["text"] = "The attack has ended." \
-                            "\n\nStarted at: " + globalVariables.started_time + "\nEnded at: " + end_time
+            globalVariables.label["text"] = "The attack has ended."
 
             time.sleep(3)
 
-            miscs.multithreading(lambda: scan_oa_attacks(root, label))
+            miscs.multithreading(lambda: scan_oa_attacks)
 
             break
 

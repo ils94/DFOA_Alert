@@ -1,4 +1,6 @@
 from tkinter import Tk, Label, BOTH
+
+import globalVariables
 import miscs
 import scanAttacks
 
@@ -23,6 +25,9 @@ root.resizable(False, False)
 label_warning = Label(root, bg="black", fg="red", text="No attacks yet.", font=("Arial", 15), anchor="center")
 label_warning.pack(fill=BOTH, expand=True)
 
-miscs.multithreading(lambda: scanAttacks.scan_oa_attacks(root, label_warning))
+globalVariables.root = root
+globalVariables.label = label_warning
+
+miscs.multithreading(lambda: scanAttacks.scan_oa_attacks())
 
 root.mainloop()

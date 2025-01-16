@@ -1,3 +1,3 @@
 has_ended = ""
-
-started_time = ""
+label = None
+root = None

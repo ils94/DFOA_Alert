@@ -4,10 +4,7 @@ Simple tool to alert when an Outpost Attack started in Dead Frontier 3D game.
 # How does it works?
 
 A loop will be scanning for Outpost Attacks every 3 seconds, then, when the DFOA API returns something, it will then start a 
-countdown of 30 minutes.
-
-It will then keep scanning to see if the event has ended, and if so, it will display the time the event started 
-and when it ended (using the time zone of the player's computer)
+countdown of 20 minutes. (or the remaining time left) It will then keep scanning to see if the event has ended.
 
 # Why not just use the Discord bot?
 
